@@ -2,6 +2,7 @@ from urllib.parse import urlparse
 
 import os
 import torch
+from mlflow.tracking import MlflowClient
 from torch.utils.data import Dataset
 import torch.nn as nn
 import torch.optim as optim
@@ -125,8 +126,12 @@ def train():
     # Set up Adam optimizer
     optimizer = optim.SGD(model.parameters(), lr=0.1, momentum=0.9, weight_decay=1e-4)
 
+    client = MlflowClient()
+    run = client.create_run("0")
+    # run = mlflow.start_run(run_id=run.info.run_id)
     # Training starts
-    with mlflow.start_run():
+    # mlflow.set_experiment('hello')
+    with mlflow.start_run(run_id=run.info.run_id):
         for epoch in range(num_epochs):
             print('Epoch {}/{}'.format(epoch + 1, num_epochs))
             print('-' * 10)
@@ -187,9 +192,9 @@ def train():
                             # There are other ways to use the Model Registry, which depends on the use case,
                             # please refer to the doc for more information:
                             # https://mlflow.org/docs/latest/model-registry.html#api-workflow
-                            mlflow.sklearn.log_model(model, "model", registered_model_name="XyModel")
+                            mlflow.pytorch.log_model(model, "model", registered_model_name="XyModel")
                         else:
-                            mlflow.sklearn.log_model(model, "model")
+                            mlflow.pytorch.log_model(model, "model")
 
 
                         best_acc = epoch_acc
