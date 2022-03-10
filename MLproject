@@ -1,0 +1,17 @@
+name: xy-train
+
+conda_env: env.yaml
+# Can have a docker_env instead of a conda_env, e.g.
+#docker_env:
+#  image:  124623792426.dkr.ecr.cn-northwest-1.amazonaws.com.cn/mlflow:1.23.1
+#  volumes: ["/local/path:/container/mount/path"]
+#  environment:
+#    - ["MLFLOW_TRACKING_URI", "https://mlflow.mesh-nonprod.aws.megarobo.tech"]
+#    - ["MLFLOW_S3_ENDPOINT_URL", "https://mlflow.mesh-nonprod.aws.megarobo.tech"]
+#    - ["AWS_ACCESS_KEY_ID", "https://mlflow.mesh-nonprod.aws.megarobo.tech"]
+#    - ["AWS_SECRET_ACCESS_KEY", "https://mlflow.mesh-nonprod.aws.megarobo.tech"]
+
+
+entry_points:
+  main:
+    command: "python main.py"
